@@ -1,0 +1,243 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-11-19 09:31:39
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-12-01 08:35:00
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            padding: 0;
+            margin: 0;
+            font: 0.9em Verdana;
+        }
+
+        li {
+            display: inline;
+            color: green;
+        }
+
+        li~li:before {
+            content: "|";
+            padding-right: 5px;
+            color: red;
+        }
+
+        li a {
+            display: block;
+            text-decoration: none;
+            background: #CC99CC;
+        }
+
+        li a {
+            display: inline;
+        }
+
+        .test~.test2 {
+            color: red;
+        }
+
+        .calendar {
+            width: 400px;
+            background-color: #f8f6f8;
+            border-radius: 2%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            padding: 10px;
+            background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+            background-size: 200px 200px;
+        }
+
+        .weeks {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .native {
+            background-color: #1cc629;
+            color: #ffffff;
+            border-radius: 10%;
+            font-family: fantasy;
+        }
+
+        .top{
+            
+        }
+
+        .week {
+            flex: 0 0 14%;
+            height: 50px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .week:hover {
+            border: 2px dotted #888888;
+            box-sizing: border-box;
+            border-radius: 10%;
+        }
+        .container{
+            display: flex;
+        }
+        .btn {
+            font-family: serif;
+            font-weight: 800;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background-color: orange;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        }
+        .dateInfo{
+            width: 300px;
+            height: 200px;
+            background-color: #f8f6f8;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            margin-left: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul style="visibility: hidden;">
+        <li>menu1</li>
+        <li><a href="http://www.cnblogs.com/rubylouvre/">menu2</a></li>
+        <li>menu3</li>
+        <li>menu4</li>
+        <li>menu5</li>
+    </ul>
+    <script>
+        // function repeat() {
+        //     const join = Array.prototype.join;
+        //     const obj = {};
+        //     return function (target, length) {
+        //         obj['length'] = length + 1;
+        //         return join.call(obj, target);
+        //     }
+        // }
+        // console.log(repeat()('abc', 3));
+
+        // function getDate(date){
+        //     date = date.replace(/-/g, '/');
+        //     let day = new Date(date).getDay();
+        //     return ('星期' + '天一二三四五六'.split('')[day]);
+        // }
+        // console.log(getDate('2021-11-19'));
+        let callFunc = null;
+        const formatCalendar = (year, month, nowDate) => {
+            return function (stepMonth, stepYear) {
+                month = month - stepMonth;
+                year = year - stepYear;
+                // 计算出本周从周几开始
+                let day = new Date(year, month - 1, 1).getDay();
+                // 算出这个月的天数
+                let nextWeekDate = new Date(year, month, 0).getDate();
+                let arr = new Array(42).fill('');
+                // 开始往日期数组中塞值
+                for (let i = 0, j = day; i < nextWeekDate; i++, j++) {
+                    arr[j] = year + '-' + month + '-' + (i + 1);
+                }
+                // 生成dom结构
+                let weeks = ['日', '一', '二', '三', '四', '五', '六'];
+                let body = document.getElementsByTagName('body')[0];
+                [...body.children].forEach(ele => {
+                    if (ele.className == 'container') {
+                        body.removeChild(ele);
+                    }
+                })
+                let div = document.createElement('div');
+                let calendar = document.createElement('div');
+                calendar.setAttribute('class', 'calendar');
+                let weeksDOM = document.createElement('div');
+                weeksDOM.setAttribute('class', 'weeks');
+                // 打印头部
+                weeks.forEach((ele, index) => {
+                    let th = div.cloneNode();
+                    th.innerHTML = ele;
+                    th.setAttribute('class', 'week top');
+                    weeksDOM.appendChild(th);
+                })
+                calendar.insertBefore(weeksDOM, null);
+                const bodyDOM = document.createElement('div');
+                bodyDOM.setAttribute('class', 'weeks');
+                // 打印中间部分
+                arr.forEach((ele, index) => {
+                    if (!ele) {
+                        let th = div.cloneNode();
+                        if (index == arr.length - 2) {
+                            th.innerHTML = `
+                            <div class="prev btn"> < </div>
+                        `;
+                        }
+                        if (index == arr.length - 1) {
+                            th.innerHTML = `
+                            <div class="next btn"> > </div>
+                        `;
+                        }
+                        th.setAttribute('class', 'week');
+                        bodyDOM.appendChild(th);
+                    } else {
+                        let th = div.cloneNode();
+                        th.innerHTML = ele.split('-')[2];
+                        th.setAttribute('class', ele == nowDate ? 'week native' : 'week');
+                        bodyDOM.appendChild(th);
+                    }
+                })
+                calendar.insertBefore(bodyDOM, null);
+                // 设置最外层父元素
+                let container = div.cloneNode();
+                container.setAttribute('class', 'container');
+                container.insertBefore(calendar, null);
+                let dateInfo = div.cloneNode();
+                dateInfo.setAttribute('class', 'dateInfo');
+                container.insertBefore(dateInfo, null);
+                body.insertBefore(container, null);
+                document.querySelector('.prev').addEventListener('click', () => {
+                    const date = new Date();
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1;
+                    const nowDate = `${year}-${month}-${date.getDate()}`;
+                    callFunc(1, 0);
+                })
+                document.querySelector('.next').addEventListener('click', () => {
+                    const date = new Date();
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 2;
+                    const nowDate = `${year}-${month}-${date.getDate()}`;
+                    callFunc(-1, 0);
+                })
+            }
+        }
+
+        const initialCalendar = () => {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const nowDate = `${year}-${month}-${date.getDate()}`
+            callFunc = formatCalendar(year, month, nowDate);
+            callFunc(0, 0);
+        }
+        initialCalendar();
+    </script>
+</body>
+
+</html>

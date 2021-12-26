@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script async>
+        // 原型
+        function PrototypeFunc(){
+            
+        }
+        console.log(PrototypeFunc.prototype);
+        console.log(PrototypeFunc.prototype.constructor);
+        console.log(new PrototypeFunc().__proto__);
+
+        // 原型链继承
+        function PrototypeChain(){
+            this.name = '原型链继承';
+        }
+        PrototypeChain.prototype.sayName = function(){
+            console.log(this.name);
+        }
+
+        function ChildChain(){
+            this.name = '原型'
+        }
+        ChildChain.prototype = new PrototypeChain();
+        ChildChain.prototype.constructor = PrototypeChain;
+        new ChildChain().sayName();
+
+        // 构造函数继承
+        function ConstructorExtends(name){
+            this.name = name;
+        }
+        ConstructorExtends.prototype.say = function(){
+            console.log(this.name);
+        }
+
+        function ChildExtends(name){
+            ConstructorExtends.call(this,name);
+        }
+
+        let childex1 = new ChildExtends('构造继承');
+        let childex2 = new ChildExtends('构造继承2');
+        childex1.name = 'xx';
+        childex2.name = 'ss';
+        console.log(childex1,childex2);
+
+        // 组合式继承
+        function SuperType(personName){
+            this.colors = ['a','b','c'];
+            this.personName = personName;
+        }
+
+        SuperType.prototype.say = function(){
+            console.log(`你好，${this.personName}`);
+        }
+
+        function SubType(personName){
+            SuperType.call(this,personName);
+        }
+
+        SubType.prototype = new SuperType();
+        SubType.prototype.constructor = SubType;
+        const subType = new SubType('aa');
+        subType.say();
+        console.log(subType);
+
+        // 寄生组合式继承
+        function createObj(superType){
+            function F() {}
+            F.prototype = superType;
+            return new F();
+        }
+
+        function initialObject(subType, superType){
+            let prototype = createObj(superType.prototype);
+            prototype.constructor = subType;
+            subType.prototype = prototype;
+        }   
+
+        function ParentFunc(personName){
+            this.colors = ['a','b','c'];
+            this.personName = personName;
+        }
+        ParentFunc.prototype.say = function(){
+            console.log(this.personName);
+        }
+
+        function ChildFunc(personName){
+            ParentFunc.call(this,personName);
+        }
+
+        initialObject(ChildFunc,ParentFunc);
+        const child1 = new ChildFunc('aa');
+        const child2 = new ChildFunc('bb');
+        child1.colors.push('d','e');
+        console.log(child1,child2);
+        child1.say();
+
+        // 类继承
+        class Person{
+            constructor(name){
+                this.name = name;
+            }
+        }
+
+        class Student extends Person{
+            constructor(){
+                super('大头');
+            }
+        }
+
+        console.log(new Student());
+    </script>
+</body>
+</html>

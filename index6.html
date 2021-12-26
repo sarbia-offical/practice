@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent{
+            display: grid;
+            justify-content: center;
+        }
+        .container{
+            display: grid;
+            grid-template-columns: repeat(auto-fill,250px);
+            grid-auto-rows: 50px;
+            gap: 10px 10px;
+            justify-content: center;
+            width: 1000px;
+        }
+        .container_item{
+            background-color: darkkhaki;
+        }
+        .parent2{
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 2fr;
+            margin: 150px auto;
+            padding: 20px;  
+            border: 5px dotted darkgreen;
+            gap: 5px;
+        }
+        .parent2_item{
+            background-color: darkcyan;
+            font-size: 5em;
+            text-align: center;
+        }
+        .parent3{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            grid-auto-rows: 50px;
+            gap: 10px;
+        }
+        .parent3_item{
+            background-color: darkcyan;
+            text-align: center;
+            line-height: 50px;
+            font-size: 30px;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+        }
+        .parent3_item:nth-child(2){
+            grid-column-start: 2;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 3;
+        }
+        .parent3_item:nth-child(3){
+            grid-column-start: 1;
+            grid-column-end: 1;
+            grid-row-start: 2;
+            grid-row-end: 5;
+        }
+        .parent3_item:nth-child(4){
+            grid-column-start: 2;
+            grid-column-end: 2;
+            grid-row-start: 3;
+            grid-row-end: 5;
+        }
+        .bgc{
+            position: relative;
+            width: 320px;
+            height: 200px;
+            margin: auto;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bgc::after{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url(./assets/微信图片_20210331180806.jpg);
+            background-size: cover;
+            filter: blur(50px);
+            overflow: hidden;
+            transform: scale(3);
+        }
+        .bgc img{
+            width: 90%;
+            height: 90%;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="container">
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+            <div class="container_item"></div>
+        </div>
+    </div>
+
+    <div class="parent2">
+        <div class="parent2_item">A</div>
+        <div class="parent2_item">B</div>
+        <div class="parent2_item">C</div>
+        <div class="parent2_item">A</div>
+        <div class="parent2_item">B</div>
+        <div class="parent2_item">C</div>
+        <div class="parent2_item">A</div>
+        <div class="parent2_item">B</div>
+        <div class="parent2_item">C</div>
+    </div>
+    <div class="parent3">
+        <div class="parent3_item">one</div>
+        <div class="parent3_item">two</div>
+        <div class="parent3_item">three</div>
+        <div class="parent3_item">four</div>
+        <div class="parent3_item">five</div>
+        <div class="parent3_item">six</div>
+    </div>
+
+    <div class="bgc">
+        <img src="./assets/微信图片_20210331180806.jpg">
+    </div>
+
+</body>
+</html>

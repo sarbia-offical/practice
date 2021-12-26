@@ -1,0 +1,58 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-12-09 17:21:31
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-12-14 15:33:14
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .circle{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: antiquewhite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle"></div>
+    <script>
+        let str = '/Login?function=check';
+        let arr = str.substring(str.indexOf('?') + 1, str.length).split('&');
+        let obj = {};
+        arr.forEach(ele => {
+            let arr2 = ele.split('=');
+            console.log(arr2);
+            obj[arr2[0]] = arr2[1]
+        })
+        console.log(obj);
+        let timeId = '';
+        const longPress = (ele,fn) => {
+            ele.addEventListener('touchstart', () => {
+                console.log('开启保存')
+                timeId = setTimeout(fn, 3000)
+            })
+            ele.addEventListener('touchend', () => {
+                console.log('取消');
+                clearTimeout(timeId);
+            },false)
+        }
+        let circle = document.querySelector('.circle');
+        longPress(circle, () => {
+            console.log('保存');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let startYear = +'2021';
+        let startMonth = +'01';
+        let endYear = +'2021';
+        let endMonth = +'01';
+        let sectionArr = [];
+        if(startYear && startMonth && endYear && endMonth){
+            let year = startYear;
+            let month = startMonth;
+            let length = 0;
+            if(endYear - startYear == 0){
+                length = endMonth - startMonth + 1;
+                console.log(length);
+            } else if(endYear - startYear == 1) {
+                length = 12 - startMonth + endMonth + 1;
+            } else{
+                length = (12 - startMonth + endMonth + 1) + ( (endYear - startYear  - 1)*12 );
+            }
+            for(let i = 0; i < length ; i++){
+                if(month > 12){
+                    month = 1;
+                    year++;
+                }
+                sectionArr.push(`${year}-${month < 10 ? '0'+month : month}`);
+                month++;
+            }
+        }
+        console.log(sectionArr);
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-08-10 16:44:44
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-08-27 15:56:32
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let compose = function (...args) {
+            const init = args.pop()
+            return function (...arg) {
+                return args.reverse().reduce(function (sequence, func) {
+                    return sequence.then(function (result) {
+                        return func.call(null, result)
+                    })
+                }, Promise.resolve(init.apply(null, arg)))
+            }
+        }
+        let funca = async () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('funca');
+                resolve(666);
+            }, 500)
+        })
+        let funcb = async () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('funcb');
+                resolve(777);
+            }, 1000)
+        })
+        let composeFn = compose(funca,funcb)
+        composeFn().then(res => { console.log(res) })
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                // 所以Service Worker只是一个挂在navigator对象上的HTML5 API而已
+                navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+                }, function (err) {
+                });
+            });
+        }
+
+        setTimeout(() => {
+            let url = 'http://192.168.97.2:7878/api/cloudsearch?keywords=卡林卡';
+            fetch(url,{
+                method: 'get'
+            })
+        }, 1000)
+    </script>
+</body>
+
+</html>

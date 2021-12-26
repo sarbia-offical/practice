@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(0deg, #6C32AF, #EE7FC7 100%)
+    }
+
+    .box2 {
+        width: 100px;
+        height: 100px;
+        background-image:
+            linear-gradient(transparent, transparent 50%, rgb(15, 44, 189) 50%),
+            linear-gradient(to right, transparent, transparent 50%, rgb(35, 87, 150) 50%);
+        background-size: 4px 4px;
+    }
+
+    .loadingComplete {
+        position: fixed;
+        top: 0%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url(./download.webp);
+        background-size: 100%, 100%;
+        background-repeat: no-repeat;
+    }
+
+    .loading-ball {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .loading-ball_item {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        margin-left: 2px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #ffffff;
+    }
+
+    @keyframes balls-fade-loader {
+        50% {
+            opacity: 0.3;
+            transform: scale(0.4);
+            -webkit-transform: scale(0.4);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+            -webkit-transform: scale(1);
+        }
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(1) {
+        -webkit-animation: balls-fade-loader 1s 0s infinite linear;
+        animation: balls-fade-loader 1s 0s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(2) {
+        -webkit-animation: balls-fade-loader 1s 0.2s infinite linear;
+        animation: balls-fade-loader 1s 0.2s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(3) {
+        -webkit-animation: balls-fade-loader 1s 0.3s infinite linear;
+        animation: balls-fade-loader 1s 0.3s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(4) {
+        -webkit-animation: balls-fade-loader 1s 0.4s infinite linear;
+        animation: balls-fade-loader 1s 0.4s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(5) {
+        -webkit-animation: balls-fade-loader 1s 0.5s infinite linear;
+        animation: balls-fade-loader 1s 0.5s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(6) {
+        -webkit-animation: balls-fade-loader 1s 0.6s infinite linear;
+        animation: balls-fade-loader 1s 0.6s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(7) {
+        -webkit-animation: balls-fade-loader 1s 0.7s infinite linear;
+        animation: balls-fade-loader 1s 0.7s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(8) {
+        -webkit-animation: balls-fade-loader 1s 0.8s infinite linear;
+        animation: balls-fade-loader 1s 0.8s infinite linear;
+    }
+
+    .loading-ball>.loading-ball_item:nth-child(9) {
+        -webkit-animation: balls-fade-loader 1s 0.9s infinite linear;
+        animation: balls-fade-loader 1s 0.9s infinite linear;
+    }
+
+    .line-motion{
+        width: 100px;
+        height: 100px;
+        background-color: #243b5b;
+        position: relative;
+        padding: 25px 30px;
+        color: #03e9f4;
+        font-size: 24px;
+        text-transform: uppercase;
+        transition: all .4s;
+        letter-spacing: 4px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+    .line-motion .motions{
+        position: absolute;
+    }
+    .line-motion .motions:nth-child(1){
+        width: 100%;
+        height: 3px;
+        top: 0;
+        left: -100%;
+        animation: lineMotion1 1s linear infinite;
+        background: linear-gradient(to right, transparent,#03e9f4);
+    }
+    .line-motion .motions:nth-child(2){
+        width: 5px;
+        height: 100%;
+        left: 97%;
+        top: -100%;
+        animation: lineMotion2 1s linear .5s infinite;
+        background: linear-gradient(to bottom, transparent,#03e9f4);
+    }
+    .line-motion .motions:nth-child(3){
+        width: 100%;
+        height: 3px;
+        right: -100%;
+        top: 98%;
+        animation: lineMotion3 1s linear 1s infinite;
+        background: linear-gradient(to left, transparent,#03e9f4);
+    }
+    .line-motion .motions:nth-child(4){
+        width: 5px;
+        height: 100%;
+        left: 0;
+        bottom: -100%;
+        animation: lineMotion4 1s linear 1.5s infinite;
+        background: linear-gradient(to top, transparent,#03e9f4);
+    }
+    @keyframes lineMotion1 {
+        0%{
+            left: -100%;
+        }
+        100%{
+            left: 100%;
+        }
+    }
+
+    @keyframes lineMotion2 {
+        0%{
+            top: -100%;
+        }
+        100%{
+            top: 100%;
+        }
+    }
+
+    @keyframes lineMotion3 {
+        0%{
+            right: -100%;
+        }
+        100%{
+            right: 100%;
+        }
+    }
+    @keyframes lineMotion4 {
+        0%{
+            bottom: -100%;
+        }
+        100%{
+            bottom: 100%;
+        }
+    }
+</style>
+
+<body>
+    <div class="box">
+
+    </div>
+    <div class="box2">
+
+    </div>
+    <div style="width: 300px; height: 220px;">
+        <img src="./assets/data4.png" style="width: 100%; height: 100%;" />
+    </div>
+    <div class="loadingComplete">
+        <svg t="1618561226921" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4267" width="200" height="200">
+            <path d="M512 170.666667A341.333333 341.333333 0 1 1 170.666667 512 341.333333 341.333333 0 0 1 512 170.666667m0-42.666667a384 384 0 1 0 384 384A384 384 0 0 0 512 128z" fill="#cfad20" p-id="4268">
+
+            </path>
+            <path d="M705.706667 533.333333H336.426667a21.333333 21.333333 0 1 1 0-42.666666h369.28a21.333333 21.333333 0 0 1 0 42.666666z" fill="#cfad20" p-id="4269">
+
+            </path>
+            <path d="M516.906667 707.2a21.333333 21.333333 0 0 1-14.08-5.12l-198.613334-174.08a21.333333 21.333333 0 0 1 0-32l198.613334-174.08a21.333333 21.333333 0 0 1 28.16 32.213333L350.72 512l180.266667 157.866667a21.333333 21.333333 0 0 1 2.346666 30.08 21.333333 21.333333 0 0 1-16.426666 7.253333z" fill="#cfad20" p-id="4270">
+    
+            </path>
+        </svg>
+        <ul class="loading-ball">
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+            <li class="loading-ball_item"></li>
+        </ul>
+    </div>
+    <div class="line-motion">
+        <div class="motions"></div>
+        <div class="motions"></div>
+        <div class="motions"></div>
+        <div class="motions"></div>
+    </div>
+</body>
+
+</html>

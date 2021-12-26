@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul class="ul">
+        <li>a</li>
+        <li>b</li>
+        <li>c</li>
+        <li>d</li>
+    </ul>
+    <script async>
+        /**
+         *  1、ECMAScript 6新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。具体地
+            说，可以给目标对象定义一个关联的代理对象，而这个代理对象可以作为抽象的目标对象来使用。在对
+            目标对象的各种操作影响目标对象之前，可以在代理对象中对这些操作加以控制。
+            2、代理是使用 Proxy 构造函数创建的。这个构造函数接收两个参数：目标对象和处理程序对象。缺
+            少其中任何一个参数都会抛出 TypeError。
+         **/
+        // 源对象
+        const target = {
+            name: 'aa',
+            age: 10
+        }
+        // 操作源对象的处理程序对象
+        // Reflect用于配合Proxy使用保存了Proxy的默认行为
+        const handle = {
+            get(){
+                return Reflect.get(...arguments) + '  this is proxy1'
+            }
+        }
+        const proxy1 = new Proxy(target,handle);
+        // 如果像创建一个可以捕获所有方法然后将每个方法转发给对应反射API的空代理，可以直接使用Reflect
+        const proxy2 = new Proxy(target, Reflect);
+        console.log(target == proxy1);
+        console.log(proxy1 == proxy2);
+        console.log(proxy1.name);
+        console.log(proxy2.name)
+
+        const { proxy, revoke } = Proxy.revocable(target, handle);
+        revoke();
+        console.log(proxy1);
+
+        // 利用代理的特性建立一个函数实现一个超时返回undefined的缓存功能
+        function cacheTargetFunc(cacheTarget,timing,filterFunc){
+            const CREATE_TIME = new Date();
+            const isExpired = () => (+Date.now() - CREATE_TIME) > (timing * 1000)
+            return new Proxy(cacheTarget,{
+                get: (target,property,receiver) => isExpired() ? undefined : target[property]
+            })
+        }
+
+        let cacheTarget = {
+            name: 'cacheTarget'
+        }
+        const cacheTarget2 = cacheTargetFunc(cacheTarget,5);
+        console.log(cacheTarget2.name);
+        setTimeout(() => {
+            console.log(cacheTarget2.name);
+        }, 6000)
+    </script>
+</body>
+</html>

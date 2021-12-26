@@ -1,0 +1,125 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-06-01 21:31:25
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-10-18 16:35:52
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试blob流转base64，base64转blob流</title>
+</head>
+
+<body>
+    <input type="file" placeholder="文件" class="file" />
+    <script>
+        var file = new File(["foo"], "foo.txt", {
+            type: "text/plain",
+        });
+        blobToBase64(file,base64str => {
+            console.log(base64str);
+        });
+        document.querySelector('.file').addEventListener('change', event => {
+            const {
+                target: {
+                    files
+                }
+            } = event;
+            let file = files[0];
+            // filePicker('图片.png', file);
+            blobToBase64(file,base64str => {
+                console.log(base64str);
+                base64ToBlob(base64str);
+            });
+        })
+
+        // blob转base64
+        function blobToBase64(file,callback){
+            console.log(file);
+            let fd = new FileReader();
+            fd.onload = function(res){
+                callback(res.target.result);
+            }
+            fd.readAsDataURL(file);
+        }
+
+        // 赋值file
+        function copyFile(file){
+            return new File([file],'新文件.txt',{
+                type: file.type
+            })
+        }
+
+        // base64转blob对象
+        function base64ToBlob(base64Str){
+            let bytes = window.atob(base64Str.split(',')[1]);
+            console.log(bytes.length);
+            let ab = new ArrayBuffer(bytes.length);
+            let u8 = new Uint8Array(ab);
+            console.log(ab, u8);
+            for(let i = 0;i < bytes.length; i++){
+                u8[i] = bytes.charCodeAt(i);
+            }
+            let blobUrl = new Blob([u8],{type: 'text/plain'});
+            let aTarget = window.document.createElement('a');
+            aTarget.download = 'wenben.txt';
+            aTarget.href = URL.createObjectURL(blobUrl);
+            aTarget.click();
+            // console.log(URL.createObjectURL(blobUrl))
+        }
+        
+
+        // 使用filepicker下载文件
+        async function filePicker(filename, file){
+            const res = await window.showSaveFilePicker({
+                suggestedName: filename,
+                types: [{
+                        description: "PNG file",
+                        accept: {
+                            "image/png": [".png"],
+                        },
+                    },
+                    {
+                        description: "Jpeg file",
+                        accept: {
+                            "image/jpeg": [".jpeg"],
+                        },
+                    },
+                ]
+            });
+            let writeHandle = await res.createWritable();
+            await writeHandle.write(file);
+            await writeHandle.close();
+            console.log(writeHandle);
+        }
+
+        // promise的静态方法
+        let promiseArr = [ 
+            new Promise((resolve, reject) => setTimeout(() => {resolve('ok')},1000)),
+            Promise.reject('reject'),
+            Promise.resolve('success')
+        ]
+        // Promise.all(promiseArr).then(RES => {
+        //     console.log(RES);
+        // })
+        Promise.allSettled(promiseArr).then(res => {
+            console.log(res);
+        })
+
+        function f1(functionCallBack){
+            return function (str, functionCallBack2){
+                return functionCallBack(functionCallBack2(str));
+            }
+        }
+        let func = (msg) => msg.toUpperCase();
+        console.log(f1(func1)('wow', str => str.substring(0,1)));
+    </script>
+</body>
+
+</html>

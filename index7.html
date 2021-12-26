@@ -1,0 +1,59 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-05-28 08:58:37
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-06-01 15:18:02
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Document</title>
+    <style>
+         body{
+            margin: 0;
+            padding: 0;
+        }
+        .bgColor{
+            height: 100vh;
+            width: 100vw;
+            background-color: #42318d;
+            margin: 0;
+            padding: 0;
+        }
+        .img{
+            width: 100%;
+            height: 100%;
+        }
+        .img img{
+            width: 100%;
+            height: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="bgColor">
+        <div class="img">
+            <img src="./assets/49425550-ee27-11e9-9225-e970eea924ae_9bfd1aa0-11d7-40f2-b2f5-06b1cae23866_thumb.jpg">
+        </div>
+    </div>
+    <div style="background-color: 63b9ff; width: 400px; height: 400px;">
+        <img src="./assets/需求订阅.png">
+    </div>
+</body>
+<script>
+    let array = [{age: 10},{age: 11},{age: 12},{age: 14}];
+    let array2 = [{age: 20},{age: 21},{age: 22},{age: 24}];
+    let curryFuncByArray = function (method,callBack){
+        return function (List){
+            return Array.prototype[method].bind(List)(callBack);
+        }
+    };
+    let curryReturnFunc = curryFuncByArray('map',(item,index) => { return item.age });
+    console.log(curryReturnFunc(array,curryReturnFunc(array)),curryReturnFunc(array2,curryReturnFunc(array2)));
+</script>
+</html>

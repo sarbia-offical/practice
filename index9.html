@@ -1,0 +1,122 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-07-30 16:20:38
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-08-09 23:56:07
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>λ函数</title>
+</head>
+<body>
+    <script type="module">
+
+        // 管理函数的输入，函数的输入值应当保持一个或两个入参
+        let fn1 = function(fn,...firstArgs){
+            return function(...secondArgs){
+                console.log(fn(...firstArgs,...secondArgs));
+                return fn(...firstArgs,...secondArgs);
+            }
+        }
+
+        let list = [11,22,33,44,55,66,77,88,99,110];
+        
+        let add = function(val1,val2,val3){
+            return val1 + val2;
+        }
+
+        let fil = function(num1, num2){
+            return num2 > num1
+        }
+
+        console.log(list.map(fn1(add,1)))
+        console.log(list.filter(fn1(fil,55)))
+
+        fn1((num1,num2,num3) => {
+            console.log(num1,num2,num3);
+        },1)(2,3);
+
+        // 传入一个回调函数作为闭包函数的返回值
+        let unary = function(fn){
+            return function(args){
+                return fn(args);                
+            }
+        }
+        console.log(['1','2','3'].map( unary(parseInt) ))
+
+        let str = 'aA bB2 bB2 cC~';
+        //
+        let words = function(str){
+            return str
+            .toLowerCase()
+            .split(/\s|\b/)
+            .filter(fil => /^[\w]+$/.test(fil))   
+        }
+
+        let unique = function(list){
+            let uniqueList = [];
+            for(let i = 0; i < list.length; i ++ ){
+                if(uniqueList.indexOf(list[i]) === -1){
+                    uniqueList.push(list[i]);
+                }
+            }
+            return uniqueList;
+        }
+
+
+        // 原始型组合式函数
+        function compose(fn2,fn1){
+            return function(strx){
+                return fn2(fn1(strx))
+            }
+        }
+
+        // 升级版
+        function compose2(...fns){
+            return function(result){
+                let list = fns.slice();
+                while(list.length > 0){
+                    result = list.pop()(result);
+                }
+                return result;
+            }
+        }
+
+        // 使用reduce方法
+        function compose3(...fns){
+            return function (result){
+                return [...fns].reverse().reduce((result, fn) => {
+                    return fn(result);
+                },result);
+            }
+        }
+
+        console.log('compose3',
+            compose3(
+                count => count + 2,
+                count => count + 3,
+                count => count + 4,
+                count => count + 5,
+            )(1)
+        );
+
+        function func3(...params){
+            console.log(params[0]);
+            console.log(params[1]);
+            console.log(params[2]);
+        }
+
+        // console.log(compose(unique,words)(str));
+
+        let str2 = compose2(unique,words)(str);
+        console.log(func3(1,2,3,4,5));
+
+    </script>
+</body>
+</html>

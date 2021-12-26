@@ -1,0 +1,183 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2021-09-02 09:19:43
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2021-10-11 14:38:51
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'sjt';
+            src: url("./assets/DFGB5SJ3.ttc");
+        }
+
+        @font-face {
+            font-family: 'hyxhkj';
+            src: url("./assets/汉仪细行楷简.ttf");
+        }
+
+        .title {
+            font-family: sjt;
+            font-size: 40px;
+        }
+
+        .title2 {
+            font-family: hyxhkj;
+            font-size: 40px;
+        }
+
+        .wrap {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            min-height: 100vh;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            padding: 20px;
+        }
+
+        .content {
+            width: 100px;
+            height: 100px;
+            background: #FEC8EE;
+        }
+        .bgc{
+            width: 300px;
+            height: 150px;
+            background-image: url(./assets/位图.png);
+            background-size: 100% 100%;
+            position: relative;
+        }
+        .bgc1{
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f5f7fb; 
+        }
+        .titlex{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            font-family: 'sjt';
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        瘦金体
+    </div>
+    <div class="title2">
+        瘦金体
+    </div>
+    <button class="jumpBtn">
+        跳转
+    </button>
+    <button class="start">
+        播放
+    </button>
+    <button class="pause">
+        暂停
+    </button>
+    <div class="wrap">
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+        <div class="box">
+            <div class="content"></div>
+        </div>
+    </div>
+    <audio class="audio" src="http://m7.music.126.net/20210927231946/9439ed954a80f62d0912f8cd7285e228/ymusic/76e5/ba34/d562/2e95d6640354faee9ef0d6a384d2bc5f.mp3"></audio>
+    <div class="bgc">
+        <div class="bgc1"></div>
+        <div class="titlex">黎明</div>
+    </div>
+    <script>
+        document.querySelector('.start').addEventListener('click', () => {
+            console.log(document.querySelector('.audio').play());
+        })
+        document.querySelector('.pause').addEventListener('click', () => {
+            document.querySelector('.audio').pause();
+        })
+        fetch('http://127.0.0.1:3000/cats/edit', {
+            method: 'POST',
+            body: {
+                name: '大罗'
+            }
+        }).then(res => {
+            console.log(res);
+        });
+        fetch('http://127.0.0.1:3000/cats/paramsInterface/10', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: '猫猫',
+                age: 10
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            }
+        }).then(res => {
+            console.log(res);
+        })
+        document.querySelector('.jumpBtn').addEventListener('click', event => {
+            window.location.href = 'http://192.168.43.39:3000/cats/jumpNewPage';
+        })
+    </script>
+</body>
+
+</html>
