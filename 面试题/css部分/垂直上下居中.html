@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .demo1{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: burlywood;
+        }
+        .demo2{
+            margin-top: 20px;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: burlywood;
+        }
+        .demo3{
+            position: relative;
+            margin-top: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: burlywood;
+        }
+        .demo3child{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .demo4{
+            position: relative;
+            margin-top: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: burlywood;
+        }
+        .demo4child{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .child{
+            width: 10px;
+            height: 10px;
+            background-color: darkcyan;
+        }
+    </style>
+</head>
+<body>
+    <!-- 使用弹性盒子 -->
+    <div class="demo1">
+        <div class="child"></div>
+    </div>
+    <!-- 使用grid布局 -->
+    <div class="demo2">
+        <div class="child"></div>
+    </div>
+    <!-- 使用margin+transform -->
+    <div class="demo3">
+        <div class="child demo3child"></div>
+    </div>
+    <!-- 使用绝对定位 -->
+    <div class="demo4">
+        <div class="child demo4child"></div>
+    </div>
+</body>
+</html>

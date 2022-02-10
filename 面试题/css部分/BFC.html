@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content{
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+            margin: 100px;
+            overflow: hidden;
+        }
+        .parent{
+            overflow: hidden;
+            border: 1px solid black;
+        }
+        .floatContent{
+            float: left;
+            height: 10px;
+            width: 20px;
+            background-color: limegreen;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        1、BFC是块级格式上下文，属于页面盒模型布局的一种css渲染方式。bfc内部相当于一个独立的容器，元素内部与外部互不相关。
+        2、
+            bfc容器内部的元素会从垂直方向一个接一个的放置
+            容器内部两个相邻的块级元素垂直外边距会发生margin折叠
+            计算bfc高度时，浮动元素也会参与计算
+        创建bfc的方式有 根标签html，float浮动，绝对定位，overflow不为visiable，display为表格或弹性布局 
+     -->
+     <!-- margin折叠 -->
+    <div class="content"></div>
+    <div class="content"></div>
+    <!-- 计算bfc高度，浮动元素也会参与计算 -->
+    <div class="parent">
+        <div class="floatContent"></div>
+    </div>
+</body>
+</html>
