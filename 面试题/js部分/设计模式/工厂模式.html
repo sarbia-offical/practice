@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 工厂设计模式：封装了创建对象实例的过程对多个类创建实例
+        class Student{
+            constructor(name, age, gender){
+                this.name = name;
+                this.age = age;
+                this.gender = gender
+            }
+        }
+        class Teacher{
+            constructor(name,professionalTitle){
+                this.name = name;
+                this.professionalTitle = professionalTitle;
+            }
+        }
+        class factory{
+            classs = {
+                student: Student,
+                teacher: Teacher
+            }
+            constructor(type, ...params){
+                return new this.classs[type](...params)
+            }
+            static newFunction(type, ...params){
+                return new factory(type, ...params);
+            }
+        }
+        console.log(new factory('student', '大罗', 20, '女'));
+        console.log(factory.newFunction('teacher', '小罗', '教授'));
+    </script>
+</body>
+</html>
