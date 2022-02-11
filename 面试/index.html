@@ -1,0 +1,118 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2022-02-10 09:36:13
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2022-02-10 16:07:56
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面八股</title>
+    <style>
+        .btn{
+            border: 0;
+            background-color: limegreen;
+            width: 100px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .btn:active{
+            background-color: rgb(64, 177, 64);
+        }
+    </style>
+</head>
+<body>
+    <div class="btn">提交</div>
+    <!-- 函数的防抖和节流 -->
+    <script>
+        // 函数的防抖，在一定时期内只触发该次事件一次，如果重新调用了这个事件则重新开始计算
+        function debounce(func, time){
+            let timeout = null;
+            return () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(this, arguments);
+                },time)
+            }
+        }
+        let callback = () => {
+            console.log('鼠标移动');
+        }
+        // 函数的节流，在一定时期内只调用该事件
+        function throttle(fn, time){
+            let flag = true;
+            return () => {
+                if(!flag){
+                    return;
+                }
+                flag = false;
+                setTimeout(() => {
+                    fn.apply(this, arguments);
+                    flag = true;
+                },time)
+            }
+        }
+        let callback2 = () => {
+            console.log('提交');
+        }
+        window.addEventListener('mousemove', debounce(callback, 1000))
+        document.querySelector('.btn').addEventListener('click', throttle(callback2, 1000));
+
+        // set，map，weakset，weakmap
+        // set是个类数组结构本质是个对象，set内部的值是唯一的，set的构造函数需要包含一个可迭代对象
+        // 对象类型需要自定义可迭代对象
+        let a = {
+            0: '10',
+            1: '20',
+            2: '30'
+        }
+        a[Symbol.iterator] = function (){
+            let begin = 0;
+            let l = Object.keys(a).length;
+            return {
+                next: () => {
+                    if(begin < 3){
+                        return {
+                            done: false,
+                            value: this[begin ++]
+                        }
+                    } else {
+                        return {
+                            done: true
+                        }
+                    }
+                }
+            }
+        }
+        let set = new Set(['A','A','B','B','B','C','D','D']);
+        let set2 = new Set(new Map([['name','大罗'],['age','10']]));
+        let set3 = new Set(a);
+        console.log(set3);
+        
+        // 使用map
+        // JavaScript 的对象（Object），本质上是键值对的集合（Hash 结构），但是传统上只能用字符串当作键。这给它的使用带来了很大的限制
+        // Map对象可以设置key值为任意类型
+        let ele =document.querySelector('.btn');
+        let map = new Map();
+        map.set(ele, (event) => { console.log('111'); });
+        console.log(map.keys());
+        for (const key of map.keys()) {
+            console.log(key);
+            key.addEventListener('click',map.get(key))
+        }
+        
+    </script>
+</body>
+</html>

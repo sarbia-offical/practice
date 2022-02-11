@@ -1,0 +1,116 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2022-02-08 10:13:10
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2022-02-08 11:25:42
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="btn">解析歌词文件</div>
+    <div class="start">开始播放</div>
+    <div class="pause">暂停播放</div>
+    <script>
+        let str = `
+[00:00.000] 作词 : 小美
+[00:01.000] 作曲 : 黄家驹
+[00:02.000] 编曲 : Beyond
+[00:03.849]
+[00:04.849]监制 : Beyond / 欧阳燊
+[00:31.603]黄家驹：
+[00:32.304]无聊望见了犹豫
+[00:35.879]达到理想不太易
+[00:39.419]即使有信心斗志却抑止
+[00:46.219]黄家强：
+[00:46.617]谁人定我去或留
+[00:50.095]定我心中的宇宙
+[00:53.629]只想靠两手 向理想挥手
+[01:00.898]问句天几高 心中志比天更高
+[01:07.996]自信打不死的心态活到老
+[01:14.224]合：
+[01:14.624]Wo ho ho ho 我有我心底故事
+[01:22.255]亲手写上每段得失乐与悲与梦儿
+[01:28.800]Wo ho ho ho 纵有创伤不退避
+[01:36.503]梦想有日达成找到心底梦想的世界
+[01:43.200]终可见
+[02:12.072]黄贯中：
+[02:12.287]谁人没试过犹豫
+[02:15.642]达到理想不太易
+[02:19.143]即使有信心斗志却抑止
+[02:25.815]叶世荣：
+[02:26.281]谁人定我去或留
+[02:29.933]定我心中的宇宙
+[02:33.523]只想靠两手 向理想挥手
+[02:40.618]问句天几高 心中志比天更高
+[02:47.761]自信打不死的心态活到老
+[02:54.069]合：
+[02:54.477]Wo ho ho ho 我有我心底故事
+[03:02.073]亲手写上每段得失乐与悲与梦儿
+[03:08.779]Wo ho ho ho 纵有创伤不退避
+[03:16.287]梦想有日达成找到心底梦想的世界
+[03:22.955]终可见
+[03:26.502]Wo ho ho ho
+[03:30.546]亲手写上每段得失乐与悲与梦儿
+[03:40.807]Wo ho ho ho
+[03:44.789]梦想有日达成找到心底梦想的世界
+[03:51.497]终可见
+[03:55.031]AI！`;
+    const timeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
+    const arrx = [];
+    let timeStamp = 0;
+    let index = 0;
+    document.querySelector('.btn').addEventListener('click', () => {
+        let arr = str.trim().split('\n')
+        for (let i = 0; i < arr.length; i++) {
+            const element = arr[i];
+            const result = timeExp.exec(element);
+            if(result){
+                let txt = element.replace(timeExp, '').trim();
+                arrx.push({
+                    time: result[1] * 60 * 1000 + result[2] * 1000 + (result[3] || 0) * 10,
+                    txt
+                })
+            }
+        }
+    })
+    document.querySelector('.start').addEventListener('click', () => {
+        console.log(arrx);
+        let currentIndex = findIndex(0);
+        index = currentIndex
+        timeStamp = +(new Date()) - 0;
+        if(currentIndex < arrx.length){
+            play();
+        }
+    })
+    const findIndex = (time) => {
+        for (let i = 0; i < arrx.length; i++) {
+            if(time <= arrx[i].time){
+                return i;
+            }
+        }
+        return arrx.length - 1;
+    }
+    const play = () => {
+        const line = arrx[index];
+        let delay = line.time - (+new Date() - timeStamp)
+        setTimeout(() => {
+            handleFunc(index ++);
+            if(index < arrx.length){
+                play();
+            }
+        }, delay)
+    }
+    const handleFunc = (num) => {
+        console.log(arrx[num + 1]);
+    }
+    </script>
+</body>
+</html>
