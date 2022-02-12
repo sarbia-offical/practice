@@ -1,0 +1,57 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2022-02-11 11:15:41
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2022-02-11 15:45:19
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 建造者设计模式，建造者模式关注类的创建过程
+        class house {
+            constructor(price,location,color) {
+                this.price = price;
+                this.location = location;
+                this.color = color;
+            }
+            setColor = () => {
+                this.color = color;
+                return this;
+            }
+        }
+        class contractor {
+            constructor(...worker) {
+                this.worker = [...worker];
+                this.worker.forEach(ele => { ele.setColor() });
+            }
+            getHouses = () => this.worker.map(ele => ele.getHouse());
+        }
+        class worker {
+            constructor(...params) {
+                this.house = new house(...params);
+                this.setColor();
+            }
+            setColor = () => {
+                this.house.color = 'red';
+                return this;
+            }
+            getHouse = () => this.house;
+        }
+        let w1 = new worker('10','xxx','red');
+        let w2 = new worker();
+        console.log(new contractor(w1,w2).getHouses());
+    </script>
+</body>
+
+</html>
