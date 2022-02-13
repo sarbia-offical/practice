@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .form-label{
+            height: 30px;
+            width: 400px;
+            background-color: aqua;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function func1(subClass, parentClass){
+            const F = function(){};
+            F.prototype = parentClass.prototype;
+            subClass.prototype = new F();
+            subClass.prototype.constorct = subClass;
+        }
+        function parent(className, labelName){
+            this.element = document.createElement(labelName);
+            this.element.setAttribute('class', className);
+            this.className = className;
+            this.labelName = labelName;
+        }
+        parent.prototype.append = function(childele){
+            this.element.appendChild(childele);
+        }
+        function divComponent(className, labelName){
+            parent.call(this,...arguments);
+        }
+        func1(childrenx, parent);
+        let p1 = new divComponent('form', 'form');
+        console.log(p1);
+    </script>
+    <form action="../index.html" method="get" class="form">
+        <div class="form-label">
+            <label for="name">名称输入框</label>
+            <input type="text" name="name" id="name"/>
+        </div>
+        <div class="form-label">
+            <label for="pwd">密码输入框</label>
+            <input type="password" name="pwd" id="pwd"/>
+        </div>
+        <div>
+            <button type="submit">提交按钮</button>
+        </div>
+    </form>
+</body>
+</html>
