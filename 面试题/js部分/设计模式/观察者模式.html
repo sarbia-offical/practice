@@ -1,0 +1,58 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2022-02-14 15:34:46
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2022-02-14 16:31:10
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 观察者模式
+        // 设置一个订阅者和发布者，发布者有发送消息和存储消息方法，订阅者调用发布者的订阅方法
+        // 本质上是订阅者将需要广播的函数传入给了发布者，发布者存储回调函数进行广播
+        let myObserver = (function(){
+            let _register = {};
+            return {
+                register: function(type, fn){
+                    if(_register[type]){
+                        _register[type].push(fn);
+                    } else {
+                        _register[type] = [fn];
+                    }
+                },
+                execute: function(type){
+                    let params = {
+                        type,
+                        content: {...arguments}
+                    }
+                    for (let i = 0; i < _register[type].length; i++) {
+                        _register[type][i](params);
+                    }
+                }
+            }
+        })()
+        let person = function(name){
+            this.name = name;
+        }
+        person.prototype.register = function(){
+            myObserver.register('carInfo', (e) => {
+                console.log(this,e);
+            });
+        }
+        let p1 = new person('大罗');
+        p1.register();
+        let p2 = new person('小罗');
+        p2.register();
+        myObserver.execute('carInfo', {info: 'xxx'});
+    </script>
+</body>
+</html>

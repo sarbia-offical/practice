@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2022-02-14 09:05:28
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2022-02-14 16:28:12
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +18,12 @@
             height: 30px;
             width: 400px;
             background-color: aqua;
+            margin-top: 5px;
+        }
+        .content{
+            background-color: aquamarine;
+            width: 100px;
+            height: 50px;
             margin-top: 5px;
         }
     </style>
@@ -28,17 +42,46 @@
             this.className = className;
             this.labelName = labelName;
         }
-        parent.prototype.append = function(childele){
-            this.element.appendChild(childele);
+        parent.prototype.append = function(children){
+            this.element.appendChild(children.element);
+            return this;
         }
-        function divComponent(className, labelName){
-            parent.call(this,...arguments);
+        parent.prototype.appendBody = function(){
+            document.body.appendChild(this.element);
         }
-        func1(childrenx, parent);
-        let p1 = new divComponent('form', 'form');
-        console.log(p1);
+        // 表单
+        function formComponent(className, labelName, method, action){
+            parent.call(this, ...arguments);
+            this.element.setAttribute('method', method);
+            this.element.setAttribute('action', action);
+        }
+        func1(formComponent, parent);
+
+        // DIV
+        function divComponent(className, labelName, text){
+            parent.call(this, ...arguments);
+            this.element.innerText = text || '';
+        }
+        func1(divComponent, parent);
+
+        // label
+        function labelComponent(className, labelName, text){
+            parent.call(this, ...arguments);
+            this.element.innerText = text;
+        }
+        func1(labelComponent, parent);
+        
+        let f1 = new formComponent('form', 'form', 'get', '../index.html');
+        let div1 = new divComponent('form-label', 'div');
+        let label1 = new labelComponent('name', 'label', '名称输入框');
+        let div2 = new divComponent('form-label', 'div');
+        let label2 = new labelComponent('name', 'label', '名称输入框');
+        f1.append(div1.append(label1)).append(div2.append(label2)).appendBody();
+
+        let div3 = new divComponent('content', 'div');
+        div3.appendBody();
     </script>
-    <form action="../index.html" method="get" class="form">
+    <!-- <form action="../index.html" method="get" class="form">
         <div class="form-label">
             <label for="name">名称输入框</label>
             <input type="text" name="name" id="name"/>
@@ -50,6 +93,6 @@
         <div>
             <button type="submit">提交按钮</button>
         </div>
-    </form>
+    </form> -->
 </body>
 </html>
