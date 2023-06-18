@@ -1,0 +1,159 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-06-18 14:11:27
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-06-18 15:29:58
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container_type_first{
+            width: 1000px;
+            height: 300px;
+            position: relative;
+            margin: 50px auto;
+        }
+        .left_type_first{
+            width: 100px;
+            height: 100%;
+            background-color: red;
+            border-bottom: 1px solid red;
+            position: relative;
+            z-index: 9;
+        }
+        .right_type_first{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;    
+            background-color: burlywood;
+            border-bottom: 1px solid burlywood;
+            padding-left: 100px;
+            box-sizing: border-box;
+        }
+
+        .container_type_second{
+            width: 1000px;
+            height: 300px;
+            position: relative;
+            margin: 50px auto;
+            display: flex;
+        }
+        .left_type_second{
+            width: 100px;
+            background-color: red;
+            border-bottom: 1px solid red;
+        }
+        .right_type_second{
+            flex: 1;
+            height: 100%;    
+            background-color: burlywood;
+            border-bottom: 1px solid burlywood;
+        }
+
+        .container_type_third{
+            width: 1000px;
+            height: 300px;
+            position: relative;
+            margin: 50px auto;
+            background-color: aqua;
+        }
+        .middle_type_third{
+            width: 100%;
+            height: 100%;
+            background-color: rgb(80, 88, 85);
+            float: left;
+        }
+        .middle_type_third_main{
+            height: 100%;
+            margin: 0 200px 0 200px;
+            background-color: beige;
+        }
+        .left_type_third{
+            width: 200px;
+            height: 100%;
+            background-color: blueviolet;
+            float: left;
+            margin-left: -100%;
+        }
+        .right_type_third{
+            width: 200px;
+            height: 100%;
+            background-color: brown;
+            float: left;
+            margin-left: -200px;
+        }
+
+        .container_type_fourth{
+            width: 1000px;
+            height: 300px;
+            position: relative;
+            margin: 50px auto;
+            background-color: aqua;
+            padding: 0 200px 0 200px;
+            box-sizing: border-box;
+        }
+
+        .left_type_fourth,
+        .right_type_fourth{
+            float: left;
+            width: 200px;
+            height: 100%;
+            position: relative;
+        }
+
+        .left_type_fourth{
+            background-color: brown;
+            margin-left: -100%;
+            left: -200px;
+        }
+
+        .right_type_fourth{
+            background-color: cadetblue;
+            margin-right: -200px;
+        }
+
+        .middle_type_fourth{
+            width: 100%;
+            height: 100%;
+            background-color: beige;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <!-- 两栏布局，定位模式和flex模式 -->
+    <div class="container_type_first">
+        <div class="left_type_first"></div>
+        <div class="right_type_first">AA</div>
+    </div>
+    <div class="container_type_second">
+        <div class="left_type_second"></div>
+        <div class="right_type_second">AA</div>
+    </div>
+    <!-- 三栏布局，使用浮动进行三栏布局区别在于双飞翼的中间列存在嵌套关系，中间列嵌套在父列中用中间列的边距加以控制 -->
+    <!-- 双飞翼布局 -->
+    <div class="container_type_third">
+        <div class="middle_type_third">
+            <div class="middle_type_third_main">
+                CCC
+            </div>
+        </div>
+        <div class="left_type_third"></div>
+        <div class="right_type_third"></div>
+    </div>
+    <!-- 圣杯布局 -->
+    <div class="container_type_fourth">
+        <div class="middle_type_fourth">AAA</div>
+        <div class="left_type_fourth"></div>
+        <div class="right_type_fourth"></div>
+    </div>
+</body>
+</html>
