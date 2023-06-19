@@ -1,0 +1,138 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-06-19 11:20:35
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-06-19 12:12:51
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body,
+        div,
+        span,
+        applet,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        a,
+        abbr,
+        address,
+        big,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        p,
+        s,
+        samp,
+        small,
+        strike,
+        strong,
+        sub,
+        sup,
+        tt,
+        var,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td {
+            vertical-align: baseline;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+        }
+
+        a{
+            background-color: transparent;
+            text-decoration: none;
+        }
+        a:active,
+        a:hover{
+            outline: 0;
+        }
+
+        .todo-wrap {
+            width: 500px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+        }
+
+        .todo-wrap h2 {
+            text-align: center;
+        }
+
+        .list-hd{
+            position: relative;
+        }
+
+        .list-hd a{
+            float: right;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="todo-wrap" data-config='{
+        "plusBtn": "j-plus-btn",
+        "inputArea": "input-wrap",
+        "addBtn": "j-add-item",
+        "list": "item-list"
+    }'>
+        <div class="list-hd">
+            <h2>TodoList</h2>
+            <a href="javascript:;" class='j-plus-btn'>添加</a>
+        </div>
+        <div class="input-wrap">
+            <div class="text-input">
+                <input type="text" class="content" />
+            </div>
+            <div class="add-btn">
+                <button class="j-add-item">添加项目</button>
+            </div>
+        </div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
