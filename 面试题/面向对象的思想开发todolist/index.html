@@ -4,7 +4,7 @@
  * @Author: zouwenqin
  * @Date: 2023-06-19 11:20:35
  * @LastEditors: zouwenqin
- * @LastEditTime: 2023-06-19 12:12:51
+ * @LastEditTime: 2023-06-19 22:33:19
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -108,6 +108,95 @@
             top: 0;
             right: 0;
         }
+        
+        .input-wrap{
+            margin-top: 10px;
+            height: 45px;
+            display: none;
+        }
+
+        .text-input{
+            float: left;
+            width: 60%;
+        }
+
+        .text-input input{
+            width: 100%;
+            height: 30px;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            padding-left: 10px;
+        }
+
+        .add-btn{
+            float: right;
+            width: 150px;
+            height: 35px;
+        }
+
+        .add-btn button{
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            color: #606266;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            padding: 10px 20px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .add-btn button:hover{
+            color: #409eff;
+            border-color: #c6e2ff;
+            background-color: #ecf5ff;
+            box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
+        }
+
+        .list-wrap .list {
+            height: 416px;
+            overflow: auto;
+        }
+
+        .list-wrap .item {
+            position: relative;
+            height: 50px;
+        }
+
+        .list-wrap .item.active {
+            background-color: rgb(181, 235, 227) !important;
+        }
+
+        .list-wrap .item:nth-child(odd) {
+            background-color: #ddd;
+        }
+
+        .list-wrap .item-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400px;
+            line-height: 50px;
+            text-indent: 20px;
+        }
+
+        .list-wrap .item .btn-group {
+            height: 100%;
+            margin-left: 400px;
+            line-height: 50px;
+        }
+
+        .list-wrap .item .btn-group a {
+            margin-left: 15px;
+        }
     </style>
 
 </head>
@@ -117,7 +206,8 @@
         "plusBtn": "j-plus-btn",
         "inputArea": "input-wrap",
         "addBtn": "j-add-item",
-        "list": "item-list"
+        "list": "item-list",
+        "itemClass": "item"
     }'>
         <div class="list-hd">
             <h2>TodoList</h2>
@@ -131,7 +221,13 @@
                 <button class="j-add-item">添加项目</button>
             </div>
         </div>
+        <div class="list-wrap">
+            <ul class="j-list list">
+                <li class="item">SSS</li>
+            </ul>
+        </div>
     </div>
+    <script src="./utils.js"></script>
     <script src="./index.js"></script>
 </body>
 

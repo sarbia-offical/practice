@@ -1,0 +1,59 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-06-19 22:40:34
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-06-19 22:56:51
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a class="a_tag">a标签</a>
+    <script>
+        // 使用Objectdefineproperty修改过的对象不可修改，删除，不可枚举
+        // 属性对象上增加writeable之后可以修改，增加enumerable之后可枚举
+        function defineProperty(){
+            const _obj = {}
+            // Object.defineProperty(_obj, 'a', {
+            //     value: 1
+            // })
+            Object.defineProperties(_obj, {
+                a: {
+                    get(val){
+                        return a;
+                    },
+                    set(newValue){
+                        document.querySelector('.a_tag').innerHTML = newValue;
+                        a = newValue;
+                    }
+                },
+                b: {
+                    value: 2
+                },
+                c: {
+                    value: 3
+                }
+            })  
+            return _obj;
+        }
+        const obj = defineProperty();
+        obj['a'] = 2;
+        obj['a'] = 3;
+        obj['a'] = 4;
+        console.log(obj);
+        // for (const iterator in obj) {
+        //     console.log(iterator);
+        // }
+
+        // 使用set,get可以实现数据劫持，使用set，get不能有writeable，enumerable，value属性存在
+
+        
+    </script>
+</body>
+</html>
