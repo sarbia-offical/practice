@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 函数式编程，函数为一等公民，不依赖其他对象而存在
+        // 函数声明整体会被提到当前作用域的最顶部，函数表达式也会提到最顶部但只是变量名提升
+        //1、纯函数，相同的输入得到相同的输出，不依赖不影响外部环境也不产生副作用
+        console.log(sum(1));
+        function sum(num){ // 这是纯函数而且这也是函数声明式
+            return num;
+        }
+        function deepClone(obj, cloneObj){ // 这是纯函数也是函数声明式
+            const copyCloneObj = cloneObj || {},
+                  toStr = Array.prototype.toString;
+            for (const key in obj) {
+                if(!copyCloneObj.hasOwnProperty(key)){
+                    if(typeof obj[key] === "object" && obj[key] !== null){
+                        console.log('obj[key]', obj[key]);
+                        cloneObj[key] = toStr.call(obj[key]) === '[object Object]' ? {} : []
+                        deepClone(obj[key], cloneObj[key]);
+                    } else {
+                        console.log('cloneObj', cloneObj);
+                        cloneObj[key] = obj[key];
+                    }
+                }
+            }
+            return cloneObj;
+        }
+        let obj = {
+            name: 'xxx',
+            age: 'xxx',
+            gender: 'xxx',
+            messages: {
+                type: 'info',
+                msg: 'ABCD'
+            }
+        };
+        let obj2 = deepClone(obj, {});
+
+        // 函数组合：若干个函数组合形成的一个新函数形成数据传递，并实现一种有序执行的结果
+        const regFunc = function (str){
+            const matchs = str.match(/\<template\>(.+?)\<\/template\>/);
+            return matchs && matchs.length >= 1 ? matchs[1] : str;
+        }
+        const upperCase = function(str){
+            return str.toUpperCase();
+        }
+        // 函数左倾，接受一个输入值函数的执行从右往左，适合对数据的顺序处理
+        const leftCompose = function(){
+            const funcList = Array.prototype.slice.call(arguments),
+                  length = funcList.length;
+                  i = length - 1;
+            return function(para){
+                let res = funcList[i](para);
+                while(i--){
+                    res = funcList[i](res);
+                }
+                return res;
+            }
+        }
+        // 函数右倾，无非是和左倾的执行顺序不一样
+        const rightCompose = function(){
+            const funcList = Array.prototype.slice.call(arguments),
+                  length = funcList.length
+                  i = 0;
+            return function(startPara){
+                let res = funcList[i](startPara);
+                while(++i < length){
+                    res = funcList[i](res)
+                }
+                return res;
+            }
+        }
+        console.log('left',leftCompose(upperCase, regFunc)('<template>moss</template>'));
+
+        console.log('right',rightCompose(regFunc, upperCase )('<template>moss</template>'));
+
+        console.log([upperCase, regFunc].reduceRight((previousValue, currentValue) => {
+            return currentValue(previousValue);
+        }, 'a'))
+    </script>
+</body>
+</html>

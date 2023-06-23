@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .shakeBox{
+            width: 100px;
+            height: 100px;
+            background-color: antiquewhite;
+        }
+        .shakeing{
+            animation: shake 1000ms ease-in-out;
+        }
+        @keyframes shake {
+            10%, 90%{
+                transform: translate3d(-3px ,0 ,0);
+            }
+            20%, 80%{
+                transform: translate3d(+4px ,0 ,0);
+            }
+            30%, 70%{
+                transform: translate3d(-6px ,0 ,0);
+            }
+            40%, 60%{
+                transform: translate3d(+6px ,0 ,0);
+            }
+            50%{
+                transform: translate3d(-6px ,0 ,0);
+            }
+        }
+        #btn{
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            color: #606266;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            padding: 10px 20px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+        #btn:hover{
+            color: #409eff;
+            border-color: #c6e2ff;
+            background-color: #ecf5ff;
+            box-shadow: 0 0 8px 0 rgba(232,237,250,.6), 0 2px 4px 0 rgba(232,237,250,.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="shakeBox"></div>
+    <button id="btn">点我摇一下</button>
+    <script>
+        const ele = document.querySelector('.shakeBox');
+        document.querySelector('#btn').addEventListener('click', () => {
+            ele.classList.add('shakeing');
+            setTimeout(() => {
+                ele.classList.remove('shakeing');
+            }, 1000)
+        });
+    </script>
+</body>
+</html>
