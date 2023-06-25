@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-06-22 18:35:22
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-06-23 18:12:54
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,11 +28,9 @@
             for (const key in obj) {
                 if(!copyCloneObj.hasOwnProperty(key)){
                     if(typeof obj[key] === "object" && obj[key] !== null){
-                        console.log('obj[key]', obj[key]);
                         cloneObj[key] = toStr.call(obj[key]) === '[object Object]' ? {} : []
                         deepClone(obj[key], cloneObj[key]);
                     } else {
-                        console.log('cloneObj', cloneObj);
                         cloneObj[key] = obj[key];
                     }
                 }

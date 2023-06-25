@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 函数性能优化，缓存函数
+        // 不使用缓存的方式计算的阶乘
+        let times = 0;
+        const factorial = function(n) {
+            times ++;
+            if( n === 0 || n === 1 ){
+                return 1;
+            }
+            return n * factorial( n - 1 );
+        }
+        // 计算从1-10每个数的阶乘
+        // console.time('start');
+        // for (let i = 0; i < 20; i++) {
+        //     console.log(`${i}的阶乘`,factorial(i));        
+        // }
+        // console.timeEnd('start');
+
+        
+        let cacheArr = [];
+        const cacheFactorial = function(n){
+            if(cacheArr[n]){
+                return cacheArr[n];
+            }
+            if(n === 0 || n === 1){
+                cacheArr[0] = 1;
+                cacheArr[1] = 1;
+                return cacheArr[0];
+            }
+            return cacheArr[n] = n * cacheFactorial(n - 1);
+        }
+        // console.time('cache start');
+        // // 使用函数缓存计算从1-10每个数的阶乘
+        //  for (let i = 0; i < 20; i++) {
+        //     console.log(`${i}的阶乘`,cacheFactorial(i));        
+        // }
+        // console.timeEnd('cache start');
+        
+        // 缓存函数，可以不在函数内部硬编码数据如何缓存，借用闭包中数据不会随着函数结束而清空的原理完成函数的缓存
+        const memorizeFunction = function(fn){
+            const cache = {};
+            return function(){
+                const key = [].join.call(arguments, ',');
+                return cache[key] = cache[key] || fn.apply(this,arguments)
+            }
+        }
+        
+        for (let i = 0; i < 6; i++) {
+            console.log('memorize', memorizeFunction(factorial)(i));
+        }
+        console.log('times', times);
+    </script>
+</body>
+</html>
