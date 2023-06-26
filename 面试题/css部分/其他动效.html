@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        .container{
+
+        .container {
             width: 100px;
             height: 100px;
             display: flex;
@@ -24,7 +26,8 @@
             transition: all linear;
             transform: translate3d(0, 0, 0);
         }
-        .spinner-outer{
+
+        .spinner-outer {
             width: 20px;
             height: 20px;
             font-size: 20px;
@@ -35,7 +38,8 @@
             animation: 3s linear infinite;
             animation-name: rotate-spinner;
         }
-        .spinner-inner{
+
+        .spinner-inner {
             width: 100%;
             height: 100%;
             opacity: .4;
@@ -47,12 +51,14 @@
             border-radius: 50%;
             box-sizing: border-box;
         }
+
         @keyframes rotate-spinner {
-            100%{
+            100% {
                 transform: rotate(1turn);
             }
         }
-        .barLine{
+
+        .barLine {
             position: absolute;
             left: 900px;
             top: 10px;
@@ -60,103 +66,85 @@
             height: 100px;
             background-color: #000000;
         }
-        .barLine:nth-of-type(4){
+
+        .barLine:nth-of-type(4) {
             top: 150px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="spinner-outer">
             <div class="spinner-inner"></div>
         </div>
     </div>
-    <button id="startBtn">点击开始</button>
-    <div class="barLine"></div>
-
-    <div class="container">
-        <div class="spinner-outer">
-            <div class="spinner-inner"></div>
-        </div>
-    </div>
-    <button id="startBtn2">点击开始</button>
     <div class="barLine"></div>
     <script>
         const container = document.getElementsByClassName('container')[0];
         const btn = document.querySelector('#startBtn');
         const barLine = document.getElementsByClassName('barLine')[0];
 
-        const container1 = document.getElementsByClassName('container')[1];
-        const btn1 = document.querySelector('#startBtn2');
-        const barLine1 = document.getElementsByClassName('barLine')[1];
-
-        const start = move(container, barLine);
-        const start2 = move(container1, barLine1);
-
-        const oMove = opacityMove(container, 20);
-        btn.onclick = (e) => {
-            start();
-            oMove();
+        const start = animationFunc(container, 400);
+        container.onmouseenter = (e) => {
+            start({
+                width: 400,
+                height: 400
+            });
+        }
+        container.onmouseleave = (e) => {
+            start({
+                width: 200,
+                height: 200
+            });
         }
 
-        btn1.onclick = (e) => {
-            start2();
-        }
-        
-        function move(dom, targetDom){
-            let timer = null; 
-            // const SPED = (targetDom.offsetLeft - dom.clientWidth) - dom.offsetLeft < 4 ? -4 : 4; 
-            let SPED = null;
-            return () => {
-                clearInterval(timer);   
-                timer = setInterval(() => {
-                    if(dom.offsetLeft === targetDom.offsetLeft){
-                        clearInterval(timer);
-                    } else {
-                        SPED = (targetDom.offsetLeft - dom.offsetLeft ) * 0.1;
-                        SPED = SPED > 0 ? Math.ceil(SPED) : Math.floor(SPED); 
-                        let leftPixel = +dom.offsetLeft + SPED;
-                        dom.style.left = leftPixel + 'px';
-                    }
-                }, 30)
-            }  
-        }
-
-        function opacityMove(dom, target){
+        function animationFunc(dom){
             let timer = null,
-                speed = null,
+                sped = null,
                 cur = null;
-            return () => {
+            return function(attrObj){
                 clearInterval(timer);
+                let length = Object.keys(attrObj).length;
                 timer = setInterval(() => {
-                    cur = parseFloat(getStyles(dom, 'opacity')) * 100; // 第一次100
-                    speed = (target - cur) * 0.2; // 第一次12.8
-                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);// 第一次13
-                    console.log('cur + speed', cur, target);
-                    if(cur == target){
+                    let index = 0;
+                    for (const key in attrObj) {
+                        if (Object.hasOwnProperty.call(attrObj, key)) {
+                            const target = attrObj[key];
+                            cur = parseInt(getStyles(dom, key));
+                            sped = (target - cur) * 0.2;
+                            sped = sped > 0 ? Math.ceil(sped) : Math.floor(sped);
+                            console.log('sped', sped);
+                            if(cur === target){
+                                ++index;
+                            } else {
+                                dom.style[key] = (cur + sped) + 'px';
+                            }
+                        }
+                    }
+                    if(index == length){
                         clearInterval(timer);
-                    } else {
-                        dom.style.opacity = (cur + speed) / 100;
                     }
                 }, 30)
             }
         }
 
-        function getStyles(ele, prop){
+        function getStyles(dom, prop){
             if(window.getComputedStyle){
                 if(prop){
-                    return window.getComputedStyle(ele, null)[prop];
+                    return window.getComputedStyle(dom, null)[prop];
                 } else {
-                    return window.getComputedStyle(ele, null);
+                    return window.getComputedStyle(dom, null);
                 }
             } else {
                 if(prop){
-                    return ele.currentStyle[prop];
+                    return dom.currentStyle[prop];
                 } else {
-                    return ele.currentStyle;
+                    return dom.currentStyle;
                 }
             }
         }
     </script>
 </body>
+
 </html>
