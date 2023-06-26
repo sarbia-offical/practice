@@ -1,11 +1,3 @@
-<!--
- * @Description: 
- * @version: 
- * @Author: zouwenqin
- * @Date: 2023-06-25 11:46:51
- * @LastEditors: zouwenqin
- * @LastEditTime: 2023-06-25 22:42:29
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,9 +22,7 @@
             left: 100px;
             top: 25px;
             transition: all linear;
-        }
-        .container:nth-of-type(1){
-            left: 800px;
+            transform: translate3d(0, 0, 0);
         }
         .spinner-outer{
             width: 20px;
@@ -93,41 +83,42 @@
     <div class="barLine"></div>
     <script>
         const container = document.getElementsByClassName('container')[0];
-        const container2 = document.getElementsByClassName('container')[1];
         const btn = document.querySelector('#startBtn');
-        const btn2 = document.querySelector('#startBtn2');
         const barLine = document.getElementsByClassName('barLine')[0];
-        const barLine2 = document.getElementsByClassName('barLine')[1];
-        const barLineLeft = barLine.offsetLeft;
-        const barLineLeft2 = barLine2.offsetLeft;
-        const SPED = (barLineLeft - container.clientWidth) - container.offsetLeft < 4 ? -4 : 4;
-        const SPED2 = (barLineLeft2 - container2.clientWidth) - container2.offsetLeft < 4 ? -4 : 4;
-        let timer = null;
-        let timer2 = null;
+
+        const container1 = document.getElementsByClassName('container')[1];
+        const btn1 = document.querySelector('#startBtn2');
+        const barLine1 = document.getElementsByClassName('barLine')[1];
+
+        const start = move(container, barLine);
+        const start2 = move(container1, barLine1);
+
         btn.onclick = (e) => {
-            clearInterval(timer);
-            timer = setInterval(() => {
-                // 1、使用终点的左偏移值减去方块的宽度获取终点的实际位置
-                // 2、如果当前终点的位置减去方块的左偏移值小于运动速度就能说明方块已经接近了终点
-                if(Math.abs((barLineLeft) - container.offsetLeft) < Math.abs(SPED)){
-                    clearInterval(timer);
-                    container.style.left = `${barLineLeft - SPED + barLine.clientWidth}px`;
-                }
-                let leftPixel = +container.offsetLeft + SPED;
-                container.style.left = leftPixel + 'px';
-            }, 30)
+            start();
         }
 
-        btn2.onclick = (e) => {
-            clearInterval(timer2);
-            timer2 = setInterval(() => {
-                if(Math.abs((barLineLeft2 - container2.clientWidth) - container2.offsetLeft) < Math.abs(SPED2)){
-                    clearInterval(timer2);
-                    container2.style.left = `${barLineLeft2 - container2.clientWidth - SPED2}px`;
-                }
-                let leftPixel = +container2.offsetLeft + SPED2;
-                container2.style.left = leftPixel + 'px';
-            }, 30)
+        btn1.onclick = (e) => {
+            start2();
+        }
+        
+        function move(dom, targetDom){
+            let timer = null; 
+            // const SPED = (targetDom.offsetLeft - dom.clientWidth) - dom.offsetLeft < 4 ? -4 : 4; 
+            let SPED = null;
+            return () => {
+                clearInterval(timer);   
+                timer = setInterval(() => {
+                    console.log('run');
+                    if(dom.offsetLeft === targetDom.offsetLeft){
+                        clearInterval(timer);
+                    } else {
+                        SPED = (targetDom.offsetLeft - dom.offsetLeft ) * 0.1;
+                        SPED = SPED > 0 ? Math.ceil(SPED) : Math.floor(SPED); 
+                        let leftPixel = +dom.offsetLeft + SPED;
+                        dom.style.left = leftPixel + 'px';
+                    }
+                }, 30)
+            }  
         }
     </script>
 </body>
