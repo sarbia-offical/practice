@@ -1,0 +1,116 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-06-29 11:53:25
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-06-29 15:56:27
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .frame{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            margin-left: -200px;
+            margin-top: -200px;
+            border-radius: 2px;
+            box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, .3);
+            background-color: #43389f;
+            background: -webkit-linear-gradient(bottom left,#43389f 0%, #4ec6ca 100%);
+            background: -moz-linear-gradient(bottom left, #43389f 0%, #4ec6ca 100%);
+            background: -o-linear-gradient(bottom left, #43389f 0%, #4ec6ca 100%);
+            font-family: 'Courier New', Courier, sans-serif;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .center{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .number{
+            position: relative;
+            width: 200px;
+            height: 100px;
+        }
+        .one-one{
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: -16px;
+            height: 40px;
+            width: 20px;
+            background-color: #fff;
+            border-radius: 2px;
+            transform: rotate(50deg);
+            box-shadow: 0 0 13px 0 rgba(0,0,0,.3);
+        }
+        .one-two{
+            position: absolute;
+            z-index: 10;
+            height: 100px;
+            width: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 13px 0 rgba(0, 0, 0, .3);
+            border-radius: 2px;
+        }
+        .zero-one,
+        .zero-two{
+            position: absolute;
+            z-index: 8;
+            top: 0;
+            left: 15px;
+            width: 100px;
+            height: 100px;
+            border: 24px solid #fff;
+            border-radius: 50%;
+            box-sizing: border-box;
+            box-shadow: 0 0 13px 0 rgba(0, 0, 0, .3);
+        }
+        .zero-two{
+            left: 100px;
+            z-index: 7;
+        }
+        .big{
+            font-weight: 700;
+            font-size: 82px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            text-shadow: 0 0 13px rgba(0, 0, 0, .3);    
+        }
+        .smally{
+            font-size: 23px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            text-shadow: 0 0 13px rgba(0, 0, 0, .3);    
+        }
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <div class="center">
+            <div class="number">
+                <div class="one-one"></div>
+                <div class="one-two"></div>
+                <div class="zero-one"></div>
+                <div class="zero-two"></div>
+            </div>
+            <div class="text">
+                <span class="big">Days</span>
+                <span class="smally">CSS challenge</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
