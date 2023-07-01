@@ -1,0 +1,145 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-07-01 16:07:51
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-07-01 18:20:37
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            position: absolute;
+            height: 100px;
+            width: 300px;
+        }
+        .box{
+            float: left;
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rebeccapurple;
+        }
+        #start{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box4"></div>
+        <div class="box box5"></div>
+    </div>
+    <button id="start">开始</button>
+    <script>
+        const start = document.querySelector('#start');
+        const boxList = [].slice.call(document.getElementsByClassName('box'));
+        let index = 0;
+        let intervalTimer = null;
+        start.onclick = function(e){
+            if(intervalTimer){
+                return;
+            }
+            intervalTimer = setInterval(() => {
+                gravityMove({
+                    dom: boxList[index]
+                })
+                index ++ ;
+                if(index == boxList.length){
+                    clearInterval(intervalTimer);
+                }
+            }, 1000)
+        }   
+
+        const gravityMove = function({dom}){
+            let speedY = 5;
+            let speedX = 5;
+            let timer = null;
+            let k = 0.9;
+            let index = 0;
+            timer = setInterval(() => {
+                let top = !!parseInt(getStyles(dom, 'top')) ? parseInt(getStyles(dom, 'top')) : 0;
+                let left = parseInt(getStyles(dom, 'left')) ? parseInt(getStyles(dom, 'left')) : 0;
+                let eleHeight = parseInt(getStyles(dom, 'height')) + 10;
+                const {width: viewPortWidth, height: viewPortHeight} = getViewPortSize();
+                speedY += 5;
+                top = top + speedY;
+                left = left + speedX;
+                if(top > viewPortHeight - eleHeight){
+                    top = viewPortHeight - eleHeight;
+                }
+                if(left > viewPortWidth - eleHeight){
+                    left = viewPortWidth - eleHeight;
+                }
+                if(top === viewPortHeight - eleHeight){
+                    speedY = -speedY * k;
+                    speedX = speedX * k;
+                    index ++;
+                    if(index == 30){
+                        clearInterval(timer);
+                        timer = null;
+                    }
+                }
+                if(left == viewPortWidth - eleHeight || left <= 0){
+                    speedX = -speedX;
+                }
+                dom.style.top = top + 'px';
+                dom.style.left = left + 'px';
+            }, 30)
+        }
+
+        function getStyles(dom, prop){
+            if(window.getComputedStyle){
+                if(prop){
+                    return window.getComputedStyle(dom, null)[prop];
+                } else {
+                    return window.getComputedStyle(dom, null);
+                }
+            } else {
+                if(prop){
+                    return dom.currentStyle[prop];
+                } else {
+                    return dom.currentStyle;
+                }
+            }
+        }
+
+        // 获取视口的宽高
+        function getViewPortSize(){
+            if(window.innerWidth){
+                return {
+                    width: window.innerWidth,
+                    height: window.innerHeight 
+                }
+            } else {
+                if(document.compatMode == 'BackCompat'){
+                    return {
+                        width: document.body.clientWidth,
+                        height: document.body.clientHeight
+                    }
+                } else {
+                    return {
+                        width: document.documentElement.clientWidth,
+                        height: document.documentElement.clientHeight
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

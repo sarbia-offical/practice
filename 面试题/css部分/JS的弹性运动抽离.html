@@ -4,7 +4,7 @@
  * @Author: zouwenqin
  * @Date: 2023-06-30 15:45:15
  * @LastEditors: zouwenqin
- * @LastEditTime: 2023-06-30 17:31:40
+ * @LastEditTime: 2023-07-01 15:33:05
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +29,7 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
             border-radius: 5px;
             position: relative;
-            left: 100px;
+            left: 150px;
             top: 25px;
             transition: all linear;
             transform: translate3d(0, 0, 0);
@@ -84,24 +84,36 @@
         </div>
     </div>
     <button id="startBtn">点击开始</button>
+    <button id="endBtn">点击回退</button>
     <div class="barLine"></div>
     <script>
         const container = document.getElementsByClassName('container')[0];
         const btn = document.querySelector('#startBtn');
+        const endBtn = document.querySelector('#endBtn');
         const barLine = document.getElementsByClassName('barLine')[0];
         const start = animationFunc(container);
-
-        container.addEventListener('dblclick', function(){
-            console.log('1');
+        const end = animationFunc(container);
+        btn.onclick = function(){
             start({
-                width: 250,
+                width: 260,
                 height: 250,
                 left: 300
             },{
-                k: 0.5,
-                z: 0.5,
+                k: 0.7,
+                z: 0.7,
             });
-        });
+        };
+
+        endBtn.onclick = function(){
+            end({
+                width: 100,
+                height: 100,
+                left: 150
+            }, {
+                k: 0.7,
+                z: 0.4
+            })
+        }
         
         function animationFunc(dom){
             let timer = null;
@@ -119,19 +131,21 @@
                             step += len * k;
                             step = step * z;
                             let finalStep = target + step;
-                            if(Math.round(step) == 0) {
+                            if(Math.abs(Math.round(step)) <= 0) {
                                 index ++;
+                                dom.style[key] = target;
                             } else {
-
+                                dom.style[key] = finalStep + 'px';
                             }
-                            dom.style[key] = finalStep + 'px';
                         }
                     }
+                    console.log('index', index);
+                    if(index >= Object.keys(attrObj).length){
+                        clearInterval(timer);
+                        index = 0;
+                        timer = null;
+                    }
                 }, 50);
-                if(index == Object.keys(attrObj).length){
-                    clearInterval(timer);
-                    timer = null;
-                }
             }
         }
 
