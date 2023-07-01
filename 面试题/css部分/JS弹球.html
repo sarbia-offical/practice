@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            position: absolute;
+            height: 100px;
+            width: 300px;
+        }
+        .box{
+            position: absolute;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rebeccapurple;
+        }
+        .box1{
+            left: 50px;
+        }
+        .box2{
+            left: 100px;
+        }
+        .box3{
+            left: 150px;
+        }
+        .box4{
+            left: 200px;
+        }
+        .box5{
+            left: 250px;
+        }
+        #start{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box4"></div>
+        <div class="box box5"></div>
+    </div>
+    <button id="start">开始</button>
+    <script>
+        const start = document.querySelector('#start');
+        const boxList = [].slice.call(document.getElementsByClassName('box'));
+        let index = 0;
+        let intervalTimer = null;
+        start.onclick = function(e){
+            if(intervalTimer){
+                return;
+            }
+            intervalTimer = setInterval(() => {
+                pinBall({
+                    dom: boxList[index]
+                })
+                index ++ ;
+                if(index == boxList.length){
+                    clearInterval(intervalTimer);
+                }
+            }, 1000)
+        }
+        
+        const pinBall = function({dom}){
+            let timer = null;
+            let speedX = 5,
+                speedY = 5;
+            setInterval(() => {
+                let top = parseInt(getStyles(dom,'top'));
+                top = !!top ? top : 0;
+                let left = parseInt(getStyles(dom, 'left'));
+                left = !!left ? left : 0;
+                let size = parseInt(getStyles(dom, 'height'));
+                top = top + speedY;
+                left = left + speedX;
+                const { width: viewPortWidth, height: viewPortHeight } = getViewPortSize();
+                if(top >= viewPortHeight - (size + 1)){
+                    top = viewPortHeight - (size + 1);
+                }
+                if(top === viewPortHeight - (size + 1) || top <= 0){
+                    speedY = -speedY;
+                }
+
+                if(left >= viewPortWidth - size){
+                    left = viewPortWidth - size;
+                }
+                if(left === viewPortWidth - size || left <= 0){
+                    speedX = -speedX;
+                }
+                dom.style['top'] = top + 'px';
+                dom.style['left'] = left + 'px';
+            }, 30)
+        }
+
+        function getStyles(dom, prop){
+            if(window.getComputedStyle){
+                if(prop){
+                    return window.getComputedStyle(dom, null)[prop];
+                } else {
+                    return window.getComputedStyle(dom, null);
+                }
+            } else {
+                if(prop){
+                    return dom.currentStyle[prop];
+                } else {
+                    return dom.currentStyle;
+                }
+            }
+        }
+
+        // 获取视口的宽高
+        function getViewPortSize(){
+            if(window.innerWidth){
+                return {
+                    width: window.innerWidth,
+                    height: window.innerHeight 
+                }
+            } else {
+                if(document.compatMode == 'BackCompat'){
+                    return {
+                        width: document.body.clientWidth,
+                        height: document.body.clientHeight
+                    }
+                } else {
+                    return {
+                        width: document.documentElement.clientWidth,
+                        height: document.documentElement.clientHeight
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
