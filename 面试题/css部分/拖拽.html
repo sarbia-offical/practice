@@ -4,7 +4,7 @@
  * @Author: zouwenqin
  * @Date: 2023-07-02 18:13:37
  * @LastEditors: zouwenqin
- * @LastEditTime: 2023-07-02 19:40:55
+ * @LastEditTime: 2023-07-02 23:57:05
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,11 @@
     <script>
         const start = document.querySelector('#start');
         const boxList = [].slice.call(document.getElementsByClassName('box'));
-        let x,y
+        let x,y;
+        let stepX,
+            stepY,
+            lastStepX,
+            lastStepY;
         [].slice.call(boxList).forEach(element => {
             element.addEventListener('mousedown', (e) => {
                 let positionArr = getPagePos(e);
@@ -66,11 +70,10 @@
                     let positionArr2 = getPagePos(e2);
                     let newLeft = positionArr2[0] - x;
                     let newTop = positionArr2[1] - y;
-                    const div = document.createElement('div');
-                    div.style.cssText = 'width: 2px; height: 2px; background-color: #000;position: absolute';
-                    div.style.left = newLeft + 'px';
-                    div.style.top = newTop + 'px';
-                    document.querySelector('.box1').appendChild(div);
+                    stepX = newLeft - lastStepX;
+                    stepY = newTop - lastStepY;
+                    lastStepX = newLeft;
+                    lastStepY = newTop;
                     element.style.left = newLeft + 'px';
                     element.style.top = newTop + 'px';                    
                 }
