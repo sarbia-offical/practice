@@ -53,6 +53,7 @@
         <div class="box box5"></div>
     </div>
     <button id="start">开始</button>
+    <script src="./drag.js"></script>
     <script>
         const start = document.querySelector('#start');
         const boxList = [].slice.call(document.getElementsByClassName('box'));
@@ -66,6 +67,7 @@
                 pinBall({
                     dom: boxList[index]
                 })
+                drag( boxList[index])();
                 index ++ ;
                 if(index == boxList.length){
                     clearInterval(intervalTimer);
