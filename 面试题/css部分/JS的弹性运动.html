@@ -94,12 +94,12 @@
                     let end = parseInt(getStyles(line, 'left'))
                     let step = 0,
                         k = obj.k || .7,
-                        z = obj.z || .7;
-                    let len = end - begin;
-                    step += len * k;
-                    step = step * z;
+                        z = obj.z || .5;
+                    let len = end - begin; // 运动总长度减去开始时的长度
+                    step += len * k; // 使用step记录回弹的步数
+                    step = step * z; // z代表回弹力度
                     console.log('step', Math.round(step));
-                    if(Math.round(step) == 1){
+                    if(Math.round(step) == 0 || Math.round(step) == 1){
                         container.style.left = end + 'px';
                         clearInterval(timer);
                         timer = null;

@@ -1,0 +1,271 @@
+<!--
+ * @Description: 
+ * @version: 
+ * @Author: zouwenqin
+ * @Date: 2023-07-14 11:21:59
+ * @LastEditors: zouwenqin
+ * @LastEditTime: 2023-07-18 10:19:36
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        // 深拷贝
+        const iterations = [
+            '[object Object]',
+            '[object Array]',
+            '[object Map]',
+            '[object Set]'
+        ]
+        function deepClone(source){
+            let type = Object.prototype.toString.call(source);
+            if(!iterations.includes(type)){
+                if(type == '[object Date]'){
+                    return new Date(source);
+                }
+                if(type == '[object RegExp]'){
+                    return new RegExp(source);
+                }
+                if(type == '[object Symbol]'){
+                    return new Symbol(source);
+                }
+                return source;
+            }
+            if(Object.prototype.toString.call(source) == '[object Map]'){
+                let target = new Map();
+                source.forEach((value, key) => {
+                    target.set(key, deepClone(value));
+                });
+                return target;
+            }
+            if(Object.prototype.toString.call(source) == '[object Set]'){
+                let target = new Set();
+                source.forEach((value) => {
+                    target.add(deepClone(value));
+                });
+                return target;
+            }
+            if(typeof source == 'object'){
+                let target = new source.constructor();
+                for (const key in source) {
+                    if (Object.hasOwnProperty.call(source, key)) {
+                        const element = source[key];
+                        target[key] = deepClone(source[key]);
+                    }
+                }
+                return target;
+            } else {
+                return source;
+            }
+        }
+        let mp = new Map();
+        mp.set('key', 'AAA');
+        mp.set('key', 'BBB');
+        let s = new Set();
+        s.add(1);
+        s.add(2);        
+        let dp = deepClone({date: new Date('2023-07-14'),name: 'xxx', age: 10, mp: mp, set: s});
+        console.log(dp);
+
+        // 数组扁平化
+        let arr = [
+            0,
+            [1,2,3],
+            [4,5],
+            [6,7,
+                [
+                    {name: 'xxx'},
+                    9,10, 
+                    [11,12]
+                ]
+            ]
+        ];
+        function flatten(arr){
+            return arr.reduce((prev, next) => {
+                if(Array.isArray(next)){
+                    return prev.concat(flatten(next));
+                } else {
+                    return prev.concat(next);
+                }
+            }, [])
+        }
+        console.log(flatten(arr));
+
+        // 数组去重
+        function uniqeArr(arr){
+            let newArr = [];
+            for (let i = 0; i < arr.length; i++) {
+                if(newArr.indexOf(arr[i]) == -1){
+                    newArr.push(arr[i]);
+                }
+            }
+            return newArr;
+        }
+        console.log(uniqeArr(['1', '1', 2, 2, 3, 3]));
+
+        // 闭包
+        function memorizeFunction(fn){
+            const cache = {};
+            return function(){
+                const key = [].join.call(arguments, ',');
+                return cache[key] = cache[key] || fn.apply(this, arguments)
+            }
+        }
+
+        // 数组转树状解构
+        let list = [
+            {
+                pid: 0,
+                id: 1,
+                name: '四川'
+            },
+            {
+                pid: 1,
+                id: 2,
+                name: '成都'
+            },
+            {
+                pid: 2,
+                id: 4,
+                name: '高新区'
+            },
+            {
+                pid: 4,
+                id: 10,
+                name: '高新区区区'
+            },
+            {
+                pid: 2,
+                id: 5,
+                name: '武侯区'
+            },
+            {
+                pid: 1,
+                id: 6,
+                name: '宜宾'
+            },
+            {
+                pid: 6,
+                id: 7,
+                name: '翠屏区'
+            },
+            {
+                pid: 0,
+                id: 8,
+                name: '陕西'
+            },
+            {
+                pid: 8,
+                id: 9,
+                name: '西安'
+            }
+        ];
+
+        function arrToTree(list, pid){
+            return list.reduce((res, current) => {
+                if(current['pid'] == pid){
+                    current.children = arrToTree(list, current['id']);
+                    res = res.concat(current);
+                }
+                return res;
+            }, [])
+        }
+
+        console.log('arrToTree',arrToTree(list, 0));
+
+        function f(){
+            let arr = Array.from(arguments);
+            console.log('arr', arr);
+            let before = arr.slice(0, arr.length - 1);
+            let n = arr[arr.length - 1];
+            for (let i = 1; i < n; i++) {
+                f(...before, i, n - i);
+            }
+            console.log('f',arr);
+        }
+
+        let reverseArr = [1,2,3,4,5];
+        function reverseArrFunc(list){
+            let arr = [];
+            list.forEach((item, index) => {
+                arr.push(list[list.length - (index + 1)]);
+            })
+            return arr;
+        }
+
+
+        console.log(reverseArrFunc(reverseArr));
+
+        // 防抖函数
+        function debounce(f, wait){
+            let timer;
+            return function(...args){
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    f(...args);
+                }, wait);
+            }
+        }
+
+        // 节流函数
+        function throttle(fn, wait){
+            let timer = null;
+            return function() {
+                let _this = this;
+                let args = arguments;
+                if(!timer){
+                    timer = setTimeout(() => {
+                        timer = null;
+                        fn.apply(_this, args)
+                    },wait)
+                }
+            }
+        }
+
+        window.onresize = debounce(() => {
+            console.log('resize');
+        }, 500)
+
+        // once函数
+        function onceFunc(f){
+            let result = null;
+            let flag = false;
+            return (...args) => {
+                if(flag){
+                    console.log('xxx');
+                    return result;
+                }
+                result = f(...args);
+                flag = true;
+                return result;
+            }
+        }
+
+        const once = onceFunc((x,y) => {
+            return x+y;
+        });
+        console.log(once(1,2));
+        console.log(once(5,6));
+
+        // 统计字符数量
+        function getCharNum(char){
+            let obj = {};
+            for (const iterator of char) {
+                console.log('iterator',iterator);
+                obj[iterator] = (obj[iterator] || 0) + 1;
+            }
+            const arr = Object.entries(obj);
+            console.log('arr', arr);
+            arr.sort((a,b) => a[1] - b[1])
+            console.log('arr', arr.map(ele => ele[0]));
+        }
+        getCharNum('AABBCCCD');
+    </script>
+</body>
+</html>
